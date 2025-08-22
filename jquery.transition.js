@@ -1,4 +1,6 @@
 (function($) {
+  let transitionSettings = {};
+
   $.fn.transition = function(options) {
     const defaults = {
       enter: {
@@ -15,56 +17,82 @@
       }
     };
 
-    // Merge defaults with user options
     const settings = $.extend(true, {}, defaults, options);
 
     return this.each(function() {
       const $element = $(this);
+      const elementId = this.id || 'element-' + Math.random().toString(36).substr(2, 9);
       
-      // Add transition CSS
+      if (!this.id) {
+        this.id = elementId;
+      }
+      
+      transitionSettings[elementId] = settings;
+      
       $element.css({
         'transition-property': 'all',
         'transition-timing-function': settings.enter.timing,
         'transition-duration': settings.enter.duration + 'ms'
       });
+    });
+  };
 
-      // Show method
-      $element.show = function() {
+  $.fn.transitionShow = function() {
+    return this.each(function() {
+      const $element = $(this);
+      const settings = transitionSettings[this.id];
+      
+      if (!settings) return;
+      
+      $element.css({
+        'transition-timing-function': settings.enter.timing,
+        'transition-duration': settings.enter.duration + 'ms',
+        'display': 'block'
+      });
+      
+      $element
+        .removeClass(settings.leave.end)
+        .removeClass(settings.enter.end)
+        .addClass(settings.enter.start);
+      
+      this.offsetHeight;
+
+      requestAnimationFrame(() => {
         $element
-          .removeClass(settings.leave.end)
-          .addClass(settings.enter.start)
-          .show()
-          .offset(); // Force reflow
+          .removeClass(settings.enter.start)
+          .addClass(settings.enter.end);
+      });
+    });
+  };
 
-        requestAnimationFrame(() => {
-          $element
-            .removeClass(settings.enter.start)
-            .addClass(settings.enter.end);
-        });
-        
-        return this;
-      };
+  $.fn.transitionHide = function() {
+    return this.each(function() {
+      const $element = $(this);
+      const settings = transitionSettings[this.id];
+      
+      if (!settings) return;
+      
+      $element.css({
+        'transition-timing-function': settings.leave.timing,
+        'transition-duration': settings.leave.duration + 'ms'
+      });
+      
+      $element
+        .removeClass(settings.enter.end)
+        .removeClass(settings.leave.end)
+        .addClass(settings.leave.start);
+      
+      this.offsetHeight;
 
-      // Hide method
-      $element.hide = function() {
+      requestAnimationFrame(() => {
         $element
-          .removeClass(settings.enter.end)
-          .addClass(settings.leave.start)
-          .offset(); // Force reflow
+          .removeClass(settings.leave.start)
+          .addClass(settings.leave.end);
+      });
 
-        requestAnimationFrame(() => {
-          $element
-            .removeClass(settings.leave.start)
-            .addClass(settings.leave.end);
-        });
-
-        // Remove element after animation
-        setTimeout(() => {
-          $element.css('display', 'none');
-        }, settings.leave.duration);
-        
-        return this;
-      };
+      setTimeout(() => {
+        $element.css('display', 'none');
+      }, settings.leave.duration);
     });
   };
 })(jQuery);

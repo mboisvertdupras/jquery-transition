@@ -1,6 +1,6 @@
 {
   "name": "@tamarak/jquery-transition",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight jQuery plugin for smooth CSS transitions with customizable enter and leave animations.",
   "keywords": [
     "jquery",

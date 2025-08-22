@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Transition Library Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="./jquery.transition.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">jQuery Transition Library Test</h1>
+        
+        <!-- Basic Fade Transition -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Basic Fade Transition (Default)</h2>
+            <div id="fade-demo" class="bg-blue-500 text-white p-4 rounded-lg mb-4">
+                This box will fade in and out with the default transition
+            </div>
+            <button id="fade-show" class="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600">Show</button>
+            <button id="fade-hide" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Hide</button>
+        </section>
+
+        <!-- Slide Transition -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Slide Transition</h2>
+            <div id="slide-demo" class="bg-purple-500 text-white p-4 rounded-lg mb-4">
+                This box will slide in from the right
+            </div>
+            <button id="slide-show" class="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600">Show</button>
+            <button id="slide-hide" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Hide</button>
+        </section>
+
+        <!-- Scale Transition -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Scale Transition</h2>
+            <div id="scale-demo" class="bg-yellow-500 text-white p-4 rounded-lg mb-4">
+                This box will scale in and out
+            </div>
+            <button id="scale-show" class="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600">Show</button>
+            <button id="scale-hide" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Hide</button>
+        </section>
+
+        <!-- Combined Transition -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Combined Transition (Slide + Scale + Fade)</h2>
+            <div id="combined-demo" class="bg-indigo-500 text-white p-4 rounded-lg mb-4">
+                This box combines multiple transition effects
+            </div>
+            <button id="combined-show" class="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600">Show</button>
+            <button id="combined-hide" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Hide</button>
+        </section>
+
+        <!-- Custom Duration -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Custom Duration (Slow)</h2>
+            <div id="slow-demo" class="bg-pink-500 text-white p-4 rounded-lg mb-4">
+                This box has a slower transition (1 second)
+            </div>
+            <button id="slow-show" class="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600">Show</button>
+            <button id="slow-hide" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Hide</button>
+        </section>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Basic fade transition (default)
+            $('#fade-demo').transition();
+            
+            $('#fade-show').click(function() {
+                $('#fade-demo').transitionShow();
+            });
+            
+            $('#fade-hide').click(function() {
+                $('#fade-demo').transitionHide();
+            });
+
+            // Slide transition
+            $('#slide-demo').transition({
+                enter: {
+                    start: '-translate-x-full opacity-0',
+                    end: 'translate-x-0 opacity-100',
+                    duration: 400,
+                    timing: 'ease-out'
+                },
+                leave: {
+                    start: 'translate-x-0 opacity-100',
+                    end: '-translate-x-full opacity-0',
+                    duration: 300,
+                    timing: 'ease-in'
+                }
+            });
+            
+            $('#slide-show').click(function() {
+                $('#slide-demo').transitionShow();
+            });
+            
+            $('#slide-hide').click(function() {
+                $('#slide-demo').transitionHide();
+            });
+
+            // Scale transition
+            $('#scale-demo').transition({
+                enter: {
+                    start: 'scale-0 opacity-0',
+                    end: 'scale-100 opacity-100',
+                    duration: 350,
+                    timing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                },
+                leave: {
+                    start: 'scale-100 opacity-100',
+                    end: 'scale-0 opacity-0',
+                    duration: 250,
+                    timing: 'ease-in'
+                }
+            });
+            
+            $('#scale-show').click(function() {
+                $('#scale-demo').transitionShow();
+            });
+            
+            $('#scale-hide').click(function() {
+                $('#scale-demo').transitionHide();
+            });
+
+            // Combined transition
+            $('#combined-demo').transition({
+                enter: {
+                    start: 'translate-y-8 scale-75 opacity-0',
+                    end: 'translate-y-0 scale-100 opacity-100',
+                    duration: 500,
+                    timing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                },
+                leave: {
+                    start: 'translate-y-0 scale-100 opacity-100',
+                    end: 'translate-y-8 scale-75 opacity-0',
+                    duration: 400,
+                    timing: 'ease-in'
+                }
+            });
+            
+            $('#combined-show').click(function() {
+                $('#combined-demo').transitionShow();
+            });
+            
+            $('#combined-hide').click(function() {
+                $('#combined-demo').transitionHide();
+            });
+
+            // Slow transition
+            $('#slow-demo').transition({
+                enter: {
+                    start: 'opacity-0',
+                    end: 'opacity-100',
+                    duration: 1000,
+                    timing: 'ease-out'
+                },
+                leave: {
+                    start: 'opacity-100',
+                    end: 'opacity-0',
+                    duration: 1000,
+                    timing: 'ease-in'
+                }
+            });
+            
+            $('#slow-show').click(function() {
+                $('#slow-demo').transitionShow();
+            });
+            
+            $('#slow-hide').click(function() {
+                $('#slow-demo').transitionHide();
+            });
+        });
+    </script>
+</body>
+</html>
