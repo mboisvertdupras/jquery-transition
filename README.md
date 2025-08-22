@@ -64,6 +64,24 @@ $('.my-element').transition({
 
 ## Installation
 
+### npm
+
+```bash
+npm install @tamarak/jquery-transition
+```
+
+Then include the plugin after jQuery:
+
+```javascript
+// If using a module bundler
+import 'jquery-transition';
+
+// Or require in Node.js
+require('jquery-transition');
+```
+
+### CDN / Direct Download
+
 Include the plugin after jQuery:
 
 ```html
